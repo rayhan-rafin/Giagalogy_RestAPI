@@ -50,3 +50,20 @@ def add_item(name):
             target_store["items"].append(new_item)
             return new_item, 201
     return {"message": "store not in database"}, 404
+
+
+@app.get("/store/<string:name>")
+def show_store(name):
+    for target_store in stores:
+        if name == target_store["name"]:
+            return target_store
+    return {"message": "store not found in database"}, 404
+
+
+@app.get("/store/<string:name>/item")
+def show_item(name):
+    for target_store in stores:
+        if name == target_store["name"]:
+            # always return=json/dict, client side e code jeno change na korte hoy
+            return {"items": target_store["items"]}
+    return {"message": "store not found"}, 404
